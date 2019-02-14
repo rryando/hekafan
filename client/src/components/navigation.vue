@@ -21,10 +21,17 @@
           <Button @click="showSidebar = true" type="default" size="large" icon="ios-apps"></Button>
         </div>
         <div class="layout-nav">
-          <MenuItem name="1">
-            <Icon type="ios-navigate"></Icon>
-            Item 1
-          </MenuItem>
+          <Submenu name="3">
+            <template slot="title">
+                <Icon type="ios-stats" />
+                All
+            </template>
+            <MenuGroup title="social media">
+                <MenuItem name="3-1">All</MenuItem>
+                <MenuItem name="3-2">Twitter</MenuItem>
+                <MenuItem name="3-3">Facebook</MenuItem>
+            </MenuGroup>
+        </Submenu>
           <MenuItem name="2">
             <Icon type="ios-keypad"></Icon>
             Item 2
@@ -32,10 +39,6 @@
           <MenuItem name="3">
             <Icon type="ios-analytics"></Icon>
             Item 3
-          </MenuItem>
-          <MenuItem name="4">
-            <Icon type="ios-paper"></Icon>
-            Item 4
           </MenuItem>
         </div>
       </Menu>

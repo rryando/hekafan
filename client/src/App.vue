@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <navigation>
+    <templateLayout>
       <router-view/>
-    </navigation>
+    </templateLayout>
   </div>
 </template>
 
 <script>
 import navigation from './components/navigation'
+import templateLayout from './components/templateLayout'
 
 export default {
   name: 'App',
   components: {
-    navigation
+    navigation,
+    templateLayout
   }
 }
 </script>
