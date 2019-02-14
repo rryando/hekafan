@@ -3,7 +3,7 @@ A MEVN Stack (Mongo, Express, Vue.js, Node.js) boilerplate
 ## Setup Development Machine
 1. Clone the repo `https://github.com/rryando/hekafan.git`
 
-2. `cd hekafan
+2. `cd hekafan`
 
 3. Open client
 ```
