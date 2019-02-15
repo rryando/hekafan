@@ -1,19 +1,17 @@
 <template>
   <div id="app">
     <templateLayout>
-      <router-view/>
+      <!-- <router-view/> -->
     </templateLayout>
   </div>
 </template>
 
 <script>
-import navigation from './components/navigation'
 import templateLayout from './components/templateLayout'
 
 export default {
   name: 'App',
   components: {
-    navigation,
     templateLayout
   }
 }

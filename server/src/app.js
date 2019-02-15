@@ -68,13 +68,108 @@ app.get('/posts', (req, res) => {
 // LIMIT {itemsPerPage} OFFSET {(page - 1) * itemsPerPage}
 
 app.get('/tweet', (req, res) => {
-  console.log('params: ', req.current)
-  pool.query('SELECT * FROM twitter LIMIT 20 OFFSET 1', (error, results) => {
+  const page = {...req.query}
+  pool.query(`SELECT * FROM twitter LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
     if (error) {
       throw error
     }
     res.status(200).json(results.rows)
   })
 })
+
+app.get('/posts', (req, res) => {
+  const page = {...req.query}
+  pool.query(`SELECT * FROM facebooks, twitter, instagramss LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+})
+
+app.get('/fb', (req, res) => {
+  const page = {...req.query}
+  pool.query(`SELECT * FROM facebooks LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+})
+
+app.get('/twitter', (req, res) => {
+  // console.log('params: ', req.query)
+  const page = {...req.query}
+  pool.query(`SELECT * FROM twitter LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+})
+
+app.get('/ig', (req, res) => {
+  // console.log('params: ', req.query)
+  const page = {...req.query}
+  pool.query(`SELECT * FROM instagramss LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+})
+
+function getTweet(req, res, next) {
+  const page = {...req.query}
+  pool.query(`SELECT * FROM twitter LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    req.twitter = res.rows;
+    next();
+  })
+}
+
+function getIg(req, res, next) {
+  const page = {...req.query}
+  pool.query(`SELECT * FROM instagramss LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    req.instagram = res.rows;
+    next();
+  })
+}
+
+function getFb(req, res) {
+  const page = {...req.query}
+  console.log(req.instagram)
+  
+  pool.query(`SELECT * FROM facebooks LIMIT ${page.limit} OFFSET ${(page.current-1)*page.limit}`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    req.facebook = res.rows;
+  })
+}
+
+function renderData(req, res) {
+  res.status(200).json({
+    twitter: req.twitter,
+    instagram: req.instagram,
+    facebook: req.facebook
+  })
+}
+
+app.get('/all', (req, res, next) => {
+  // console.log('params: ', req.query)
+  const page = {...req.query}
+  // getFb(req,res)
+  res.status(200).json({
+    twitter: req.twitter,
+    instagram: req.instagram,
+    facebook: getFb(req,res)
+  })
+});
 
 app.listen(process.env.PORT || 8081)

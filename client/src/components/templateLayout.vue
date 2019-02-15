@@ -67,7 +67,7 @@
 <template>
 <div class="layout">
         <Layout>
-            <Sider style="z-index:3" ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" @mouseleave.native="isCollapsed=true" @mouseover.native="isCollapsed=false">
+            <!-- <Sider style="z-index:3" ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" @mouseleave.native="isCollapsed=true" @mouseover.native="isCollapsed=false">
                 <Menu active-name="1-2" theme="light" width="auto" :class="menuitemClasses">
                     <MenuItem name="1">
                       <Icon type="md-document" />
@@ -82,7 +82,7 @@
                         <span>Option 3</span>
                     </MenuItem>
                 </Menu>
-            </Sider>
+            </Sider> -->
             <Layout>
                 <Header style="position: fixed; width: 100%; z-index:1; background: #fff">
                   <Menu mode="horizontal" theme="light" active-name="1" style="display: flex;align-items: center;justify-content: center;">
@@ -93,39 +93,48 @@
                       <Submenu name="3">
                         <template slot="title">
                             <Icon type="ios-stats" />
-                            All
+                            {{activeMenu}}
                         </template>
                         <MenuGroup title="social media">
-                            <MenuItem name="3-1">All</MenuItem>
-                            <MenuItem name="3-2">Twitter</MenuItem>
-                            <MenuItem name="3-3">Facebook</MenuItem>
+                            <!-- <MenuItem name="3-1" @click.native="setActive('All')">All</MenuItem> -->
+                            <MenuItem name="3-2" @click.native="setActive('Twitter')">Twitter</MenuItem>
+                            <MenuItem name="3-3" @click.native="setActive('Facebook')">Facebook</MenuItem>
+                            <MenuItem name="3-3" @click.native="setActive('Instagram')">Instagram</MenuItem>
                         </MenuGroup>
                     </Submenu>
-                      <MenuItem name="2">
+                      <!-- <MenuItem name="2">
                         <Icon type="ios-keypad"></Icon>
                         Item 2
                       </MenuItem>
                       <MenuItem name="3">
                         <Icon type="ios-analytics"></Icon>
                         Item 3
-                      </MenuItem>
+                      </MenuItem> -->
                     </div>
                   </Menu>
                     <!-- <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon> -->
                 </Header>
                 <Content :style="{margin: '80px', background: '', minHeight: '260px'}">
-                    <slot />
+                    <!-- <slot :active="activeMenu" /> -->
+                    <posts :active="activeMenu" />
                 </Content>
             </Layout>
         </Layout>
     </div>
 </template>
 <script>
+  import posts from './Posts'
+
   export default {
     name: 'templateLayout',
+    components: {
+      posts
+    },
     data () {
       return {
-        isCollapsed: true
+        isCollapsed: true,
+        activeMenu: 'Twitter',
+
       }
     },
     computed: {
@@ -148,6 +157,12 @@
       },
       test() {
         console.log('test')
+      },
+      setActive(q) {
+        this.activeMenu = q;
+        // console.log(this.$route)
+        // this.$route.query.s = q;
+        // this.$route.push({query: {s:q}})
       }
     }
   }
